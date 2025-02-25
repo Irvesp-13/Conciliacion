@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Bienvenida{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card mt-5">
+            <div class="card-header">
+                <h3>Bienvenido, {{ empleado.nombre }}</h3>
+            </div>
+            <div class="card-body">
+                <!-- El botón "Eres Administrador" ahora está en la navbar -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
