@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,40 +8,40 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            padding-top: 56px; /* Ajuste para la navbar fija */
+            background-color: #f8f9fa; /* Fondo suave */
+            padding-top: 70px; /* Margen superior para la barra de navegación */
+        }
+        .container {
+            background-color: #fff; /* Fondo blanco para el contenido */
+            padding: 20px;
+            border-radius: 8px; /* Bordes redondeados */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
         }
     </style>
 </head>
+
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow">
         <a class="navbar-brand" href="{% url 'bienvenida' %}">Expedientes Conciliación</a>
-        
-        <!-- Botón de hamburguesa -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
-        <!-- Menú colapsable -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 {% if request.session.empleado_id %}
-                    <!-- Botón "Eres Administrador" (solo para administradores) -->
-                    {% if empleado.puesto == 1 %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'administrador' %}">Eres Administrador</a>
-                        </li>
-                    {% endif %}
-                    
-                    <!-- Botón "Cerrar sesión" -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a>
-                    </li>
+                {% if empleado.puesto == 1 %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'administrador' %}">Eres Administrador</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a>
+                </li>
                 {% else %}
-                    <!-- Botón "Iniciar sesión" (si no hay sesión activa) -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'iniciar_sesion' %}">Iniciar sesión</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'iniciar_sesion' %}">Iniciar sesión</a>
+                </li>
                 {% endif %}
             </ul>
         </div>
@@ -57,4 +58,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

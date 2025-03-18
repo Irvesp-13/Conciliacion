@@ -5,9 +5,9 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6">
-        <div class="card mt-5">
-            <div class="card-header">
-                <h3>Inicio de Sesión</h3>
+        <div class="card mt-5 shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title text-center">Inicio de Sesión</h3>
             </div>
             <div class="card-body">
                 {% if error %}
@@ -23,7 +23,7 @@
                         <label for="clave_empleado">Clave de empleado:</label>
                         <input type="text" class="form-control" id="clave_empleado" name="clave_empleado" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                    <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
                 </form>
             </div>
         </div>

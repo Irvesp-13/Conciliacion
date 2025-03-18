@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from .backends import EmpleadoBackend
-from .models import Empleado
+from .models import *
 
 def iniciar_sesion(request):
     if request.method == 'POST':
@@ -29,7 +29,14 @@ def bienvenida(request):
     
     # Obtener el empleado autenticado
     empleado = Empleado.objects.get(id=empleado_id)
-    return render(request, 'bienvenida.html', {'empleado': empleado})
+    
+    # Obtener todos los registros de la tabla conciliacion_expadientes
+    expedientes = ConciliacionExpedientes.objects.all()
+    
+    return render(request, 'bienvenida.html', {
+        'empleado': empleado,
+        'expedientes': expedientes,
+    })
 
 def administrador(request):
     # Verificar si el empleado está autenticado

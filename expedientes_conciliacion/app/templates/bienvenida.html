@@ -4,13 +4,40 @@
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card mt-5">
-            <div class="card-header">
-                <h3>Bienvenido, {{ empleado.nombre }}</h3>
+    <div class="col-md-12">
+        <div class="card mt-5 shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title">Expedientes de Conciliación</h3>
             </div>
             <div class="card-body">
-                <!-- El botón "Eres Administrador" ahora está en la navbar -->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Expediente</th>
+                                <th>Junta</th>
+                                <th>Tomo</th>
+                                <th>Actor (Nombre)</th>
+                                <th>Mujer</th>
+                                <th>Hombre</th>
+                                <th>Demandado (Nombre)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for expediente in expedientes %}
+                                <tr>
+                                    <td>{{ expediente.expediente }}</td>
+                                    <td>{{ expediente.junta }}</td>
+                                    <td>{{ expediente.tomo }}</td>
+                                    <td>{{ expediente.actor_nombre }}</td>
+                                    <td>{{ expediente.mujer_numero }}</td>
+                                    <td>{{ expediente.hombre_numero }}</td>
+                                    <td>{{ expediente.demandado_nombre }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
