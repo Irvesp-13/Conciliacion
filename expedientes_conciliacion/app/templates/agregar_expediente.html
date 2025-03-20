@@ -1,0 +1,330 @@
+{% extends 'base.html' %}
+
+{% block title %}Agregar Expediente{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card mt-5 shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title text-center">Agregar Expediente</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="expediente">Expediente:</label>
+                        <input type="text" class="form-control" id="expediente" name="expediente" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="junta">Junta:</label>
+                        <input type="text" class="form-control" id="junta" name="junta" required>
+                    </div>
+
+                    <!-- Campo Tomo -->
+                    <div class="form-group">
+                        <label for="tomo">Tomo:</label>
+                        <input type="number" class="form-control" id="tomo" name="tomo" required>
+                    </div>
+
+                    <!-- Campo Actor (Nombre) -->
+                    <div class="form-group">
+                        <label for="actor_nombre">Actor (Nombre):</label>
+                        <input type="text" class="form-control" id="actor_nombre" name="actor_nombre" required>
+                    </div>
+
+                    <!-- Campo Mujer (Número) -->
+                    <div class="form-group">
+                        <label for="mujer_numero">Mujer (Número):</label>
+                        <input type="number" step="0.01" class="form-control" id="mujer_numero" name="mujer_numero" required>
+                    </div>
+
+                    <!-- Campo Hombre (Número) -->
+                    <div class="form-group">
+                        <label for="hombre_numero">Hombre (Número):</label>
+                        <input type="number" class="form-control" id="hombre_numero" name="hombre_numero" required>
+                    </div>
+
+                    <!-- Campo Demandado (Nombre) -->
+                    <div class="form-group">
+                        <label for="demandado_nombre">Demandado (Nombre):</label>
+                        <input type="text" class="form-control" id="demandado_nombre" name="demandado_nombre" required>
+                    </div>
+
+                    <!-- Campo Mujer (Número)_[0] -->
+                    <div class="form-group">
+                        <label for="mujer_numero_0">Mujer (Número)_[0]:</label>
+                        <input type="number" class="form-control" id="mujer_numero_0" name="mujer_numero_0" required>
+                    </div>
+
+                    <!-- Campo Hombre (Número) -->
+                    <div class="form-group">
+                        <label for="hombre_numero_0">Hombre (Número):</label>
+                        <input type="number" class="form-control" id="hombre_numero_0" name="hombre_numero_0" required>
+                    </div>
+
+                    <!-- Campo Persona Moral (Número) -->
+                    <div class="form-group">
+                        <label for="persona_moral_numero">Persona Moral (Número):</label>
+                        <input type="number" class="form-control" id="persona_moral_numero" name="persona_moral_numero" required>
+                    </div>
+
+                    <!-- Campo IEBEM -->
+                    <div class="form-group">
+                        <label for="iebem">IEBEM:</label>
+                        <input type="text" class="form-control" id="iebem" name="iebem" >
+                    </div>
+
+                    <!-- Campo Servicios Salud -->
+                    <div class="form-group">
+                        <label for="servicios_salud">Servicios Salud:</label>
+                        <input type="text" class="form-control" id="servicios_salud" name="servicios_salud" >
+                    </div>
+
+                    <!-- Campo Poder Ejecutivo -->
+                    <div class="form-group">
+                        <label for="poder_ejecutivo">Poder Ejecutivo:</label>
+                        <input type="text" class="form-control" id="poder_ejecutivo" name="poder_ejecutivo" >
+                    </div>
+
+                    <!-- Campo Ayuntamientos -->
+                    <div class="form-group">
+                        <label for="ayuntamientos">Ayuntamientos:</label>
+                        <input type="text" class="form-control" id="ayuntamientos" name="ayuntamientos" >
+                    </div>
+
+                    <!-- Campo Otros Organismos -->
+                    <div class="form-group">
+                        <label for="otros_organismos">Otros Organismos:</label>
+                        <input type="text" class="form-control" id="otros_organismos" name="otros_organismos" >
+                    </div>
+
+                    <!-- Campo No Se Ha Notificado a las Partes -->
+                    <div class="form-group">
+                        <label for="no_se_ha_notificado_a_las_partes">No Se Ha Notificado a las Partes:</label>
+                        <input type="text" class="form-control" id="no_se_ha_notificado_a_las_partes" name="no_se_ha_notificado_a_las_partes" >
+                    </div>
+
+                    <!-- Campo EMPL. NO REALIZADO -->
+                    <div class="form-group">
+                        <label for="empl_no_realizado">EMPL. NO REALIZADO:</label>
+                        <input type="text" class="form-control" id="empl_no_realizado" name="empl_no_realizado" >
+                    </div>
+
+                    <!-- Campo EMPL. EXHORTO -->
+                    <div class="form-group">
+                        <label for="empl_exhorto">EMPL. EXHORTO:</label>
+                        <input type="text" class="form-control" id="empl_exhorto" name="empl_exhorto" >
+                    </div>
+
+                    <!-- Campo EXHORTOS SIN ENVIAR -->
+                    <div class="form-group">
+                        <label for="exhortos_sin_enviar">EXHORTOS SIN ENVIAR:</label>
+                        <input type="text" class="form-control" id="exhortos_sin_enviar" name="exhortos_sin_enviar" >
+                    </div>
+
+                    <!-- Campo EXHORTOS CDMX -->
+                    <div class="form-group">
+                        <label for="exhortos_cdmx">EXHORTOS CDMX:</label>
+                        <input type="text" class="form-control" id="exhortos_cdmx" name="exhortos_cdmx" >
+                    </div>
+
+                    <!-- Campo EXHORTOS FORANEOS -->
+                    <div class="form-group">
+                        <label for="exhortos_foraneos">EXHORTOS FORANEOS:</label>
+                        <input type="text" class="form-control" id="exhortos_foraneos" name="exhortos_foraneos" >
+                    </div>
+
+                    <!-- Campo C.D.E. -->
+                    <div class="form-group">
+                        <label for="cde">C.D.E.:</label>
+                        <input type="text" class="form-control" id="cde" name="cde" >
+                    </div>
+
+                    <!-- Campo TERCERO LLAMADO A JUICIO -->
+                    <div class="form-group">
+                        <label for="tercero_llamado_a_juicio">TERCERO LLAMADO A JUICIO:</label>
+                        <input type="text" class="form-control" id="tercero_llamado_a_juicio" name="tercero_llamado_a_juicio" >
+                    </div>
+
+                    <!-- Campo O.A.P. -->
+                    <div class="form-group">
+                        <label for="oap">O.A.P.:</label>
+                        <input type="text" class="form-control" id="oap" name="oap" >
+                    </div>
+
+                    <!-- Campo DESAHOGO PRUEBAS -->
+                    <div class="form-group">
+                        <label for="desahogo_pruebas">DESAHOGO PRUEBAS:</label>
+                        <input type="text" class="form-control" id="desahogo_pruebas" name="desahogo_pruebas" >
+                    </div>
+
+                    <!-- Campo TESTIMONIAL_FALTA_CITAR -->
+                    <div class="form-group">
+                        <label for="test_falta_citar">TESTIMONIAL_FALTA_CITAR:</label>
+                        <input type="text" class="form-control" id="test_falta_citar" name="test_falta_citar" >
+                    </div>
+
+                    <!-- Campo PERICIALES_PARTES -->
+                    <div class="form-group">
+                        <label for="periciales_partes">PERICIALES_PARTES:</label>
+                        <input type="text" class="form-control" id="periciales_partes" name="periciales_partes" >
+                    </div>
+
+                    <!-- Campo PERICIALES -->
+                    <div class="form-group">
+                        <label for="pericial_tercero">PERICIALES:</label>
+                        <input type="text" class="form-control" id="pericial_tercero" name="pericial_tercero" >
+                    </div>
+
+                    <!-- Campo INFORME_FALTA_HACER -->
+                    <div class="form-group">
+                        <label for="inf_falta_hacer">INFORME_FALTA_HACER:</label>
+                        <input type="text" class="form-control" id="inf_falta_hacer" name="inf_falta_hacer" >
+                    </div>
+
+                    <!-- Campo INFORME_FALTA_DESAHOGAR -->
+                    <div class="form-group">
+                        <label for="inf_falta_desahogar">INFORME_FALTA_DESAHOGAR:</label>
+                        <input type="text" class="form-control" id="inf_falta_desahogar" name="inf_falta_desahogar"  >
+                    </div>
+
+                    <!-- Campo OTRAS_PRUEBAS -->
+                    <div class="form-group">
+                        <label for="otras_pruebas">OTRAS_PRUEBAS:</label>
+                        <input type="text" class="form-control" id="otras_pruebas" name="otras_pruebas" >
+                    </div>
+
+                    <!-- Campo ALEGATOS -->
+                    <div class="form-group">
+                        <label for="alegatos">ALEGATOS:</label>
+                        <input type="text" class="form-control" id="alegatos" name="alegatos" >
+                    </div>
+
+                    <!-- Campo PRUEBA PENDIENTE -->
+                    <div class="form-group">
+                        <label for="prueba_pendiente">PRUEBA PENDIENTE:</label>
+                        <input type="text" class="form-control" id="prueba_pendiente" name="prueba_pendiente" >
+                    </div>
+
+                    <!-- Campo CIERRE -->
+                    <div class="form-group">
+                        <label for="cierre">CIERRE:</label>
+                        <input type="text" class="form-control" id="cierre" name="cierre" >
+                    </div>
+
+                    <!-- Campo LAUDO DICTADO -->
+                    <div class="form-group">
+                        <label for="laudo_dictado">LAUDO DICTADO:</label>
+                        <input type="text" class="form-control" id="laudo_dictado" name="laudo_dictado" >
+                    </div>
+
+                    <!-- Campo ABSOLUTORIO -->
+                    <div class="form-group">
+                        <label for="absolutorio">ABSOLUTORIO:</label>
+                        <input type="text" class="form-control" id="absolutorio" name="absolutorio" >
+                    </div>
+
+                    <!-- Campo CONDENATORIO -->
+                    <div class="form-group">
+                        <label for="condenatorio">CONDENATORIO:</label>
+                        <input type="text" class="form-control" id="condenatorio" name="condenatorio" >
+                    </div>
+
+                    <!-- Campo MONTO DE CONDENA -->
+                    <div class="form-group">
+                        <label for="monto">MONTO DE CONDENA:</label>
+                        <input type="text" class="form-control" id="monto" name="monto" >
+                    </div>
+
+                    <!-- Campo AUTO EJECUCCION -->
+                    <div class="form-group">
+                        <label for="auto_ejecucion">AUTO EJECUCCION:</label>
+                        <input type="text" class="form-control" id="auto_ejecucion" name="auto_ejecucion" >
+                    </div>
+
+                    <!-- Campo TERCERIA -->
+                    <div class="form-group">
+                        <label for="terceria">TERCERIA:</label>
+                        <input type="text" class="form-control" id="terceria" name="terceria" >
+                    </div>
+
+                    <!-- Campo RECURSO REVISION -->
+                    <div class="form-group">
+                        <label for="recurso_revision">RECURSO REVISION:</label>
+                        <input type="text" class="form-control" id="recurso_revision" name="recurso_revision" >
+                    </div>
+
+                    <!-- Campo REMATE -->
+                    <div class="form-group">
+                        <label for="remate">REMATE:</label>
+                        <input type="text" class="form-control" id="remate" name="remate" >
+                    </div>
+
+                    <!-- Campo INACTIVIDAD 1 ANIO -->
+                    <div class="form-group">
+                        <label for="inactividad_1_anio">INACTIVIDAD 1 ANIO:</label>
+                        <input type="text" class="form-control" id="inactividad_1_anio" name="inactividad_1_anio" >
+                    </div>
+
+                    <!-- Campo INACTIVIDAD 2 ANIOS O + -->
+                    <div class="form-group">
+                        <label for="inactividad_2_anios_mas">INACTIVIDAD 2 ANIOS O +:</label>
+                        <input type="text" class="form-control" id="inactividad_2_anios_mas" name="inactividad_2_anios_mas" >
+                    </div>
+
+                    <!-- Campo AMPARO INDIRECTO -->
+                    <div class="form-group">
+                        <label for="amparo_indirecto">AMPARO INDIRECTO:</label>
+                        <input type="text" class="form-control" id="amparo_indirecto" name="amparo_indirecto" >
+                    </div>
+
+                    <!-- Campo AMP. DIRECTO CUMPL. -->
+                    <div class="form-group">
+                        <label for="amparo_directo_cumpl">AMP. DIRECTO CUMPL.:</label>
+                        <input type="text" class="form-control" id="amparo_directo_cumpl" name="amparo_directo_cumpl" >
+                    </div>
+
+                    <!-- Campo SUSTITUCION PATRONAL -->
+                    <div class="form-group">
+                        <label for="sustitucion_patronal">SUSTITUCION PATRONAL:</label>
+                        <input type="text" class="form-control" id="sustitucion_patronal" name="sustitucion_patronal" >
+                    </div>
+
+                    <!-- Campo NO INTERPUESTA -->
+                    <div class="form-group">
+                        <label for="no_interpuesta">NO INTERPUESTA:</label>
+                        <input type="text" class="form-control" id="no_interpuesta" name="no_interpuesta" >
+                    </div>
+
+                    <!-- Campo PRESCRIPCION -->
+                    <div class="form-group">
+                        <label for="prescripcion">PRESCRIPCION:</label>
+                        <input type="text" class="form-control" id="prescripcion" name="prescripcion">
+                    </div>
+
+                    <!-- Campo DEPURACION -->
+                    <div class="form-group">
+                        <label for="depuracion">DEPURACION:</label>
+                        <input type="text" class="form-control" id="depuracion" name="depuracion">
+                    </div>
+
+                    <!-- Campo REGULARIZAR -->
+                    <div class="form-group">
+                        <label for="regularizar">REGULARIZAR:</label>
+                        <input type="text" class="form-control" id="regularizar" name="regularizar">
+                    </div>
+
+                    <!-- Campo REVISO CAPTURO -->
+                    <div class="form-group">
+                        <label for="reviso_capturo">REVISO CAPTURO:</label>
+                        <input type="text" class="form-control" id="reviso_capturo" name="reviso_capturo" required>
+                    </div>
+                    <!-- Agrega aquí el resto de los campos -->
+                    <button type="submit" class="btn btn-primary btn-block">Agregar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-p)i#yc*xf(14ps=eju=b*lboeu8$g3(%utn=-lw61b#r$5%!&c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost', '127.0.0.1'
+]
 
 
 # Application definition
@@ -80,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',  # Motor de la base de datos
         'NAME': 'conciliacion',               # Nombre de la base de datos
         'USER': 'root',                 # Usuario de la base de datos
-        'PASSWORD': 'ROOT',          # Contraseña del usuario
+        'PASSWORD': 'root',          # Contraseña del usuario
         'HOST': 'localhost',                  # Host de la base de datos
         'PORT': '3306',                       # Puerto de la base de datos
     }

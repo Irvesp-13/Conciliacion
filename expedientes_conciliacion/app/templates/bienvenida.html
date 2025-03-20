@@ -10,17 +10,28 @@
                 <h3 class="card-title">Expedientes de Conciliación</h3>
             </div>
             <div class="card-body">
+
+                <!-- Botón para agregar expediente (solo para administradores) -->
+                {% if empleado.es_administrador %}
+                    <div class="text-center mb-4">
+                        <a href="{% url 'agregar_expediente' %}" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Agregar Expediente
+                        </a>
+                    </div>
+                {% endif %}
+
+                <!-- Tabla de expedientes -->
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
-                                <th>Expediente</th>
-                                <th>Junta</th>
-                                <th>Tomo</th>
-                                <th>Actor (Nombre)</th>
-                                <th>Mujer</th>
-                                <th>Hombre</th>
-                                <th>Demandado (Nombre)</th>
+                                <th>EXPEDIENTE</th>
+                                <th>JUNTA</th>
+                                <th>TOMO</th>
+                                <th>ACTOR (NOMBRE)</th>
+                                <th>MUJER (NUMERO)</th>
+                                <th>HOMBRE (NUMERO)</th>
+                                <th>DEMANDADO (NOMBRE)</th>
                             </tr>
                         </thead>
                         <tbody>

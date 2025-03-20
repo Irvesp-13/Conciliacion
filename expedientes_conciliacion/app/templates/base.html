@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Expedientes Conciliación{% endblock %}</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa; /* Fondo suave */
@@ -21,6 +22,7 @@
 </head>
 
 <body>
+    <!-- Barra de navegación -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow">
         <a class="navbar-brand" href="{% url 'bienvenida' %}">Expedientes Conciliación</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -30,18 +32,15 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 {% if request.session.empleado_id %}
-                {% if empleado.puesto == 1 %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'administrador' %}">Eres Administrador</a>
-                </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a>
-                </li>
+                    <!-- Botón "Cerrar sesión" -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a>
+                    </li>
                 {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'iniciar_sesion' %}">Iniciar sesión</a>
-                </li>
+                    <!-- Botón "Iniciar sesión" -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'iniciar_sesion' %}">Iniciar sesión</a>
+                    </li>
                 {% endif %}
             </ul>
         </div>
