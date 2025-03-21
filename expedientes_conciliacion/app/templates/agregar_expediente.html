@@ -12,10 +12,14 @@
             <div class="card-body">
                 <form method="post">
                     {% csrf_token %}
+
+                    <!-- Campo Expediente -->
                     <div class="form-group">
                         <label for="expediente">Expediente:</label>
                         <input type="text" class="form-control" id="expediente" name="expediente" required>
                     </div>
+
+                    <!-- Campo Junta -->
                     <div class="form-group">
                         <label for="junta">Junta:</label>
                         <input type="text" class="form-control" id="junta" name="junta" required>
@@ -53,7 +57,7 @@
 
                     <!-- Campo Mujer (Número)_[0] -->
                     <div class="form-group">
-                        <label for="mujer_numero_0">Mujer (Número)_[0]:</label>
+                        <label for="mujer_numero_0">Mujer (Número):</label>
                         <input type="number" class="form-control" id="mujer_numero_0" name="mujer_numero_0" required>
                     </div>
 
@@ -161,13 +165,13 @@
 
                     <!-- Campo TESTIMONIAL_FALTA_CITAR -->
                     <div class="form-group">
-                        <label for="test_falta_citar">TESTIMONIAL_FALTA_CITAR:</label>
+                        <label for="test_falta_citar">TESTIMONIAL FALTA CITAR:</label>
                         <input type="text" class="form-control" id="test_falta_citar" name="test_falta_citar" >
                     </div>
 
                     <!-- Campo PERICIALES_PARTES -->
                     <div class="form-group">
-                        <label for="periciales_partes">PERICIALES_PARTES:</label>
+                        <label for="periciales_partes">PERICIALES PARTES:</label>
                         <input type="text" class="form-control" id="periciales_partes" name="periciales_partes" >
                     </div>
 
@@ -179,19 +183,19 @@
 
                     <!-- Campo INFORME_FALTA_HACER -->
                     <div class="form-group">
-                        <label for="inf_falta_hacer">INFORME_FALTA_HACER:</label>
+                        <label for="inf_falta_hacer">INFORME FALTA HACER:</label>
                         <input type="text" class="form-control" id="inf_falta_hacer" name="inf_falta_hacer" >
                     </div>
 
                     <!-- Campo INFORME_FALTA_DESAHOGAR -->
                     <div class="form-group">
-                        <label for="inf_falta_desahogar">INFORME_FALTA_DESAHOGAR:</label>
+                        <label for="inf_falta_desahogar">INFORME FALTA DESAHOGAR:</label>
                         <input type="text" class="form-control" id="inf_falta_desahogar" name="inf_falta_desahogar"  >
                     </div>
 
                     <!-- Campo OTRAS_PRUEBAS -->
                     <div class="form-group">
-                        <label for="otras_pruebas">OTRAS_PRUEBAS:</label>
+                        <label for="otras_pruebas">OTRAS PRUEBAS:</label>
                         <input type="text" class="form-control" id="otras_pruebas" name="otras_pruebas" >
                     </div>
 
