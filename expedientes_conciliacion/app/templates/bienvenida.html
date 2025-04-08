@@ -13,18 +13,30 @@
 
                 <!-- Botón para agregar expediente (solo para administradores) -->
                 {% if empleado.es_administrador %}
-                    <div class="text-center mb-4">
-                        <a href="{% url 'agregar_expediente' %}" class="btn btn-success">
-                            <i class="fas fa-plus"></i> Agregar Expediente
-                        </a>
-                    </div>
+                <div class="text-center mb-4">
+                    <a href="{% url 'agregar_expediente' %}" class="btn btn-success">
+                        <i class="fas fa-plus"></i> Agregar Expediente
+                    </a>
+                </div>
                 {% endif %}
+
+                <!-- Buscador -->
+                <!-- Add this in your header section -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mx-auto">
+                        <div class="input-group">
+                            <input type="text" id="searchInput" class="form-control"
+                                placeholder="Buscar por Actor, Demandado, Expediente o Junta...">
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Tabla de expedientes -->
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover">
+                    <table class="table table-bordered table-striped table-hover" id="expedientesTable">
                         <thead class="thead-dark">
                             <tr>
+                                <th>ID</th>
                                 <th>EXPEDIENTE</th>
                                 <th>JUNTA</th>
                                 <th>TOMO</th>
@@ -32,19 +44,36 @@
                                 <th>MUJER (NUMERO)</th>
                                 <th>HOMBRE (NUMERO)</th>
                                 <th>DEMANDADO (NOMBRE)</th>
+                                {% if empleado.es_administrador %}
+                                <th>ACCIONES</th>
+                                {% endif %}
                             </tr>
                         </thead>
                         <tbody>
                             {% for expediente in expedientes %}
-                                <tr>
-                                    <td>{{ expediente.expediente }}</td>
-                                    <td>{{ expediente.junta }}</td>
-                                    <td>{{ expediente.tomo }}</td>
-                                    <td>{{ expediente.actor_nombre }}</td>
-                                    <td>{{ expediente.mujer_numero }}</td>
-                                    <td>{{ expediente.hombre_numero }}</td>
-                                    <td>{{ expediente.demandado_nombre }}</td>
-                                </tr>
+                            <tr class="expediente-row">
+                                <td>{{ expediente.id_expediente }}</td>
+                                <td>{{ expediente.expediente }}</td>
+                                <td>{{ expediente.junta }}</td>
+                                <td>{{ expediente.tomo }}</td>
+                                <td>{{ expediente.actor_nombre }}</td>
+                                <td>{{ expediente.mujer_numero }}</td>
+                                <td>{{ expediente.hombre_numero }}</td>
+                                <td>{{ expediente.demandado_nombre }}</td>
+                                {% if empleado.es_administrador %}
+                                <td>
+                                    <a href="{% url 'editar_expediente' expediente.id_expediente %}"
+                                        class="btn btn-warning btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'eliminar_expediente' expediente.id_expediente %}"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('¿Estás seguro de que deseas eliminar este expediente?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                                {% endif %}
+                            </tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -53,4 +82,26 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        let searchText = this.value.toLowerCase();
+        let rows = document.getElementsByClassName('expediente-row');
+
+        for (let row of rows) {
+            let expediente = row.cells[1].textContent.toLowerCase();
+            let junta = row.cells[2].textContent.toLowerCase();
+            let actor_nombre = row.cells[4].textContent.toLowerCase();
+            let demandado_nombre = row.cells[7].textContent.toLowerCase();
+
+            if (expediente.includes(searchText) ||
+                junta.includes(searchText) ||
+                actor_nombre.includes(searchText) ||
+                demandado_nombre.includes(searchText)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        }
+    });
+</script>
 {% endblock %}

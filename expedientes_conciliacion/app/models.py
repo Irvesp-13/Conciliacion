@@ -12,7 +12,7 @@ class Empleado(models.Model):
         return self.puesto == 1
 
 class ConciliacionExpedientes(models.Model):
-    expediente = models.CharField(max_length=255, primary_key=True, db_column='EXPEDIENTE')
+    expediente = models.CharField(max_length=255, primary_key=True,db_column='EXPEDIENTE')
     junta = models.CharField(max_length=255, blank=True, null=True, db_column='JUNTA')
     tomo = models.CharField(max_length=255, blank=True, null=True, db_column='TOMO')
     actor_nombre = models.CharField(max_length=255, blank=True, null=True, db_column='ACTOR(NOMBRE)')
@@ -64,6 +64,7 @@ class ConciliacionExpedientes(models.Model):
     depuracion = models.CharField(max_length=255, blank=True, null=True, db_column='DEPURACION')
     regularizar = models.CharField(max_length=255, blank=True, null=True, db_column='REGULARIZAR')
     reviso_capturo = models.CharField(max_length=255, blank=True, null=True, db_column='REVISO CAPTURO')
+    id_expediente = models.IntegerField(unique=True,db_column='id_expediente')
 
     class Meta:
         db_table = 'expedientes'  # Nombre de la tabla en MySQL

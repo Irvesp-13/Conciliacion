@@ -4,328 +4,266 @@
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card mt-5 shadow">
+    <div class="col-md-12">
+        <div class="card mt-2 shadow">
             <div class="card-header bg-primary text-white">
                 <h3 class="card-title text-center">Agregar Expediente</h3>
             </div>
             <div class="card-body">
                 <form method="post">
                     {% csrf_token %}
-
-                    <!-- Campo Expediente -->
-                    <div class="form-group">
-                        <label for="expediente">Expediente:</label>
-                        <input type="text" class="form-control" id="expediente" name="expediente" required>
+                    
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="expediente">Expediente:</label>
+                            <input type="text" class="form-control" id="expediente" name="expediente" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="junta">Junta:</label>
+                            <input type="text" class="form-control" id="junta" name="junta" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="tomo">Tomo:</label>
+                            <input type="text" class="form-control" id="tomo" name="tomo" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="actor_nombre">Actor (Nombre):</label>
+                            <input type="text" class="form-control" id="actor_nombre" name="actor_nombre" required>
+                        </div>
                     </div>
 
-                    <!-- Campo Junta -->
-                    <div class="form-group">
-                        <label for="junta">Junta:</label>
-                        <input type="text" class="form-control" id="junta" name="junta" required>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="mujer_numero">Mujer:</label>
+                            <input type="text" class="form-control" id="mujer_numero" name="mujer_numero" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="hombre_numero">Hombre:</label>
+                            <input type="text" class="form-control" id="hombre_numero" name="hombre_numero" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="demandado_nombre">Demandado:</label>
+                            <input type="text" class="form-control" id="demandado_nombre" name="demandado_nombre">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="hombre_numero_0">Hombre [0]:</label>
+                            <input type="text" class="form-control" id="hombre_numero_0" name="hombre_numero_0">
+                        </div>
                     </div>
 
-                    <!-- Campo Tomo -->
-                    <div class="form-group">
-                        <label for="tomo">Tomo:</label>
-                        <input type="number" class="form-control" id="tomo" name="tomo" required>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="mujer_numero_0">Mujer [0]:</label>
+                            <input type="text" class="form-control" id="mujer_numero_0" name="mujer_numero_0">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="persona_moral_numero">Persona Moral:</label>
+                            <input type="text" class="form-control" id="persona_moral_numero" name="persona_moral_numero">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="iebem">IEBEM:</label>
+                            <input type="text" class="form-control" id="iebem" name="iebem">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="servicios_salud">Servicios Salud:</label>
+                            <input type="text" class="form-control" id="servicios_salud" name="servicios_salud">
+                        </div>
                     </div>
 
-                    <!-- Campo Actor (Nombre) -->
-                    <div class="form-group">
-                        <label for="actor_nombre">Actor (Nombre):</label>
-                        <input type="text" class="form-control" id="actor_nombre" name="actor_nombre" required>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="poder_ejecutivo">Poder Ejecutivo:</label>
+                            <input type="text" class="form-control" id="poder_ejecutivo" name="poder_ejecutivo">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="ayuntamientos">Ayuntamientos:</label>
+                            <input type="text" class="form-control" id="ayuntamientos" name="ayuntamientos">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="otros_organismos">Otros Organismos:</label>
+                            <input type="text" class="form-control" id="otros_organismos" name="otros_organismos">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="no_se_ha_notificado_a_las_partes">No notificado:</label>
+                            <input type="text" class="form-control" id="no_se_ha_notificado_a_las_partes" name="no_se_ha_notificado_a_las_partes">
+                        </div>
                     </div>
 
-                    <!-- Campo Mujer (Número) -->
-                    <div class="form-group">
-                        <label for="mujer_numero">Mujer (Número):</label>
-                        <input type="number" step="0.01" class="form-control" id="mujer_numero" name="mujer_numero" required>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="empl_no_realizado">Empl. no realizado:</label>
+                            <input type="text" class="form-control" id="empl_no_realizado" name="empl_no_realizado">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="empl_exhorto">Empl. exhorto:</label>
+                            <input type="text" class="form-control" id="empl_exhorto" name="empl_exhorto">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="exhortos_sin_enviar">Exhortos sin enviar:</label>
+                            <input type="text" class="form-control" id="exhortos_sin_enviar" name="exhortos_sin_enviar">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="exhortos_cdmx">Exhortos CDMX:</label>
+                            <input type="text" class="form-control" id="exhortos_cdmx" name="exhortos_cdmx">
+                        </div>
                     </div>
 
-                    <!-- Campo Hombre (Número) -->
-                    <div class="form-group">
-                        <label for="hombre_numero">Hombre (Número):</label>
-                        <input type="number" class="form-control" id="hombre_numero" name="hombre_numero" required>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="exhortos_foraneos">Exhortos foráneos:</label>
+                            <input type="text" class="form-control" id="exhortos_foraneos" name="exhortos_foraneos">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="cde">CDE:</label>
+                            <input type="text" class="form-control" id="cde" name="cde">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="tercero_llamado_a_juicio">Tercero llamado:</label>
+                            <input type="text" class="form-control" id="tercero_llamado_a_juicio" name="tercero_llamado_a_juicio">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="oap">OAP:</label>
+                            <input type="text" class="form-control" id="oap" name="oap">
+                        </div>
                     </div>
 
-                    <!-- Campo Demandado (Nombre) -->
-                    <div class="form-group">
-                        <label for="demandado_nombre">Demandado (Nombre):</label>
-                        <input type="text" class="form-control" id="demandado_nombre" name="demandado_nombre" required>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="desahogo_pruebas">Desahogo pruebas:</label>
+                            <input type="text" class="form-control" id="desahogo_pruebas" name="desahogo_pruebas">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="test_falta_citar">Test. falta citar:</label>
+                            <input type="text" class="form-control" id="test_falta_citar" name="test_falta_citar">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="periciales_partes">Periciales partes:</label>
+                            <input type="text" class="form-control" id="periciales_partes" name="periciales_partes">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="pericial_tercero">Pericial tercero:</label>
+                            <input type="text" class="form-control" id="pericial_tercero" name="pericial_tercero">
+                        </div>
                     </div>
 
-                    <!-- Campo Mujer (Número)_[0] -->
-                    <div class="form-group">
-                        <label for="mujer_numero_0">Mujer (Número):</label>
-                        <input type="number" class="form-control" id="mujer_numero_0" name="mujer_numero_0" required>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="inf_falta_hacer">Inf. falta hacer:</label>
+                            <input type="text" class="form-control" id="inf_falta_hacer" name="inf_falta_hacer">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="inf_falta_desahogar">Inf. falta desahogar:</label>
+                            <input type="text" class="form-control" id="inf_falta_desahogar" name="inf_falta_desahogar">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="otras_pruebas">Otras pruebas:</label>
+                            <input type="text" class="form-control" id="otras_pruebas" name="otras_pruebas">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="alegatos">Alegatos:</label>
+                            <input type="text" class="form-control" id="alegatos" name="alegatos">
+                        </div>
                     </div>
 
-                    <!-- Campo Hombre (Número) -->
-                    <div class="form-group">
-                        <label for="hombre_numero_0">Hombre (Número):</label>
-                        <input type="number" class="form-control" id="hombre_numero_0" name="hombre_numero_0" required>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="prueba_pendiente">Prueba pendiente:</label>
+                            <input type="text" class="form-control" id="prueba_pendiente" name="prueba_pendiente">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="cierre">Cierre:</label>
+                            <input type="text" class="form-control" id="cierre" name="cierre">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="laudo_dictado">Laudo dictado:</label>
+                            <input type="text" class="form-control" id="laudo_dictado" name="laudo_dictado">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="absolutorio">Absolutorio:</label>
+                            <input type="text" class="form-control" id="absolutorio" name="absolutorio">
+                        </div>
                     </div>
 
-                    <!-- Campo Persona Moral (Número) -->
-                    <div class="form-group">
-                        <label for="persona_moral_numero">Persona Moral (Número):</label>
-                        <input type="number" class="form-control" id="persona_moral_numero" name="persona_moral_numero" required>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="condenatorio">Condenatorio:</label>
+                            <input type="text" class="form-control" id="condenatorio" name="condenatorio">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="monto">Monto:</label>
+                            <input type="text" class="form-control" id="monto" name="monto">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="auto_ejecucion">Auto ejecución:</label>
+                            <input type="text" class="form-control" id="auto_ejecucion" name="auto_ejecucion">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="recurso_revision">Recurso revisión:</label>
+                            <input type="text" class="form-control" id="recurso_revision" name="recurso_revision">
+                        </div>
                     </div>
 
-                    <!-- Campo IEBEM -->
-                    <div class="form-group">
-                        <label for="iebem">IEBEM:</label>
-                        <input type="text" class="form-control" id="iebem" name="iebem" >
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="terceria">Tercería:</label>
+                            <input type="text" class="form-control" id="terceria" name="terceria">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="remate">Remate:</label>
+                            <input type="text" class="form-control" id="remate" name="remate">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="inactividad_1_anio">Inactividad 1 año:</label>
+                            <input type="text" class="form-control" id="inactividad_1_anio" name="inactividad_1_anio">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="inactividad_2_anios_mas">Inactividad 2+ años:</label>
+                            <input type="text" class="form-control" id="inactividad_2_anios_mas" name="inactividad_2_anios_mas">
+                        </div>
                     </div>
 
-                    <!-- Campo Servicios Salud -->
-                    <div class="form-group">
-                        <label for="servicios_salud">Servicios Salud:</label>
-                        <input type="text" class="form-control" id="servicios_salud" name="servicios_salud" >
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="amparo_indirecto">Amparo indirecto:</label>
+                            <input type="text" class="form-control" id="amparo_indirecto" name="amparo_indirecto">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="amparo_directo_cumpl">Amp. directo cumpl:</label>
+                            <input type="text" class="form-control" id="amparo_directo_cumpl" name="amparo_directo_cumpl">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="sustitucion_patronal">Sust. patronal:</label>
+                            <input type="text" class="form-control" id="sustitucion_patronal" name="sustitucion_patronal">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="no_interpuesta">No interpuesta:</label>
+                            <input type="text" class="form-control" id="no_interpuesta" name="no_interpuesta">
+                        </div>
                     </div>
 
-                    <!-- Campo Poder Ejecutivo -->
-                    <div class="form-group">
-                        <label for="poder_ejecutivo">Poder Ejecutivo:</label>
-                        <input type="text" class="form-control" id="poder_ejecutivo" name="poder_ejecutivo" >
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="prescripcion">Prescripción:</label>
+                            <input type="text" class="form-control" id="prescripcion" name="prescripcion">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="depuracion">Depuración:</label>
+                            <input type="text" class="form-control" id="depuracion" name="depuracion">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="regularizar">Regularizar:</label>
+                            <input type="text" class="form-control" id="regularizar" name="regularizar">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="reviso_capturo">Revisó y capturó:</label>
+                            <input type="text" class="form-control" id="reviso_capturo" name="reviso_capturo" required>
+                        </div>
                     </div>
 
-                    <!-- Campo Ayuntamientos -->
-                    <div class="form-group">
-                        <label for="ayuntamientos">Ayuntamientos:</label>
-                        <input type="text" class="form-control" id="ayuntamientos" name="ayuntamientos" >
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <a href="{% url 'bienvenida' %}" class="btn btn-secondary">Cancelar</a>
                     </div>
-
-                    <!-- Campo Otros Organismos -->
-                    <div class="form-group">
-                        <label for="otros_organismos">Otros Organismos:</label>
-                        <input type="text" class="form-control" id="otros_organismos" name="otros_organismos" >
-                    </div>
-
-                    <!-- Campo No Se Ha Notificado a las Partes -->
-                    <div class="form-group">
-                        <label for="no_se_ha_notificado_a_las_partes">No Se Ha Notificado a las Partes:</label>
-                        <input type="text" class="form-control" id="no_se_ha_notificado_a_las_partes" name="no_se_ha_notificado_a_las_partes" >
-                    </div>
-
-                    <!-- Campo EMPL. NO REALIZADO -->
-                    <div class="form-group">
-                        <label for="empl_no_realizado">EMPL. NO REALIZADO:</label>
-                        <input type="text" class="form-control" id="empl_no_realizado" name="empl_no_realizado" >
-                    </div>
-
-                    <!-- Campo EMPL. EXHORTO -->
-                    <div class="form-group">
-                        <label for="empl_exhorto">EMPL. EXHORTO:</label>
-                        <input type="text" class="form-control" id="empl_exhorto" name="empl_exhorto" >
-                    </div>
-
-                    <!-- Campo EXHORTOS SIN ENVIAR -->
-                    <div class="form-group">
-                        <label for="exhortos_sin_enviar">EXHORTOS SIN ENVIAR:</label>
-                        <input type="text" class="form-control" id="exhortos_sin_enviar" name="exhortos_sin_enviar" >
-                    </div>
-
-                    <!-- Campo EXHORTOS CDMX -->
-                    <div class="form-group">
-                        <label for="exhortos_cdmx">EXHORTOS CDMX:</label>
-                        <input type="text" class="form-control" id="exhortos_cdmx" name="exhortos_cdmx" >
-                    </div>
-
-                    <!-- Campo EXHORTOS FORANEOS -->
-                    <div class="form-group">
-                        <label for="exhortos_foraneos">EXHORTOS FORANEOS:</label>
-                        <input type="text" class="form-control" id="exhortos_foraneos" name="exhortos_foraneos" >
-                    </div>
-
-                    <!-- Campo C.D.E. -->
-                    <div class="form-group">
-                        <label for="cde">C.D.E.:</label>
-                        <input type="text" class="form-control" id="cde" name="cde" >
-                    </div>
-
-                    <!-- Campo TERCERO LLAMADO A JUICIO -->
-                    <div class="form-group">
-                        <label for="tercero_llamado_a_juicio">TERCERO LLAMADO A JUICIO:</label>
-                        <input type="text" class="form-control" id="tercero_llamado_a_juicio" name="tercero_llamado_a_juicio" >
-                    </div>
-
-                    <!-- Campo O.A.P. -->
-                    <div class="form-group">
-                        <label for="oap">O.A.P.:</label>
-                        <input type="text" class="form-control" id="oap" name="oap" >
-                    </div>
-
-                    <!-- Campo DESAHOGO PRUEBAS -->
-                    <div class="form-group">
-                        <label for="desahogo_pruebas">DESAHOGO PRUEBAS:</label>
-                        <input type="text" class="form-control" id="desahogo_pruebas" name="desahogo_pruebas" >
-                    </div>
-
-                    <!-- Campo TESTIMONIAL_FALTA_CITAR -->
-                    <div class="form-group">
-                        <label for="test_falta_citar">TESTIMONIAL FALTA CITAR:</label>
-                        <input type="text" class="form-control" id="test_falta_citar" name="test_falta_citar" >
-                    </div>
-
-                    <!-- Campo PERICIALES_PARTES -->
-                    <div class="form-group">
-                        <label for="periciales_partes">PERICIALES PARTES:</label>
-                        <input type="text" class="form-control" id="periciales_partes" name="periciales_partes" >
-                    </div>
-
-                    <!-- Campo PERICIALES -->
-                    <div class="form-group">
-                        <label for="pericial_tercero">PERICIALES:</label>
-                        <input type="text" class="form-control" id="pericial_tercero" name="pericial_tercero" >
-                    </div>
-
-                    <!-- Campo INFORME_FALTA_HACER -->
-                    <div class="form-group">
-                        <label for="inf_falta_hacer">INFORME FALTA HACER:</label>
-                        <input type="text" class="form-control" id="inf_falta_hacer" name="inf_falta_hacer" >
-                    </div>
-
-                    <!-- Campo INFORME_FALTA_DESAHOGAR -->
-                    <div class="form-group">
-                        <label for="inf_falta_desahogar">INFORME FALTA DESAHOGAR:</label>
-                        <input type="text" class="form-control" id="inf_falta_desahogar" name="inf_falta_desahogar"  >
-                    </div>
-
-                    <!-- Campo OTRAS_PRUEBAS -->
-                    <div class="form-group">
-                        <label for="otras_pruebas">OTRAS PRUEBAS:</label>
-                        <input type="text" class="form-control" id="otras_pruebas" name="otras_pruebas" >
-                    </div>
-
-                    <!-- Campo ALEGATOS -->
-                    <div class="form-group">
-                        <label for="alegatos">ALEGATOS:</label>
-                        <input type="text" class="form-control" id="alegatos" name="alegatos" >
-                    </div>
-
-                    <!-- Campo PRUEBA PENDIENTE -->
-                    <div class="form-group">
-                        <label for="prueba_pendiente">PRUEBA PENDIENTE:</label>
-                        <input type="text" class="form-control" id="prueba_pendiente" name="prueba_pendiente" >
-                    </div>
-
-                    <!-- Campo CIERRE -->
-                    <div class="form-group">
-                        <label for="cierre">CIERRE:</label>
-                        <input type="text" class="form-control" id="cierre" name="cierre" >
-                    </div>
-
-                    <!-- Campo LAUDO DICTADO -->
-                    <div class="form-group">
-                        <label for="laudo_dictado">LAUDO DICTADO:</label>
-                        <input type="text" class="form-control" id="laudo_dictado" name="laudo_dictado" >
-                    </div>
-
-                    <!-- Campo ABSOLUTORIO -->
-                    <div class="form-group">
-                        <label for="absolutorio">ABSOLUTORIO:</label>
-                        <input type="text" class="form-control" id="absolutorio" name="absolutorio" >
-                    </div>
-
-                    <!-- Campo CONDENATORIO -->
-                    <div class="form-group">
-                        <label for="condenatorio">CONDENATORIO:</label>
-                        <input type="text" class="form-control" id="condenatorio" name="condenatorio" >
-                    </div>
-
-                    <!-- Campo MONTO DE CONDENA -->
-                    <div class="form-group">
-                        <label for="monto">MONTO DE CONDENA:</label>
-                        <input type="text" class="form-control" id="monto" name="monto" >
-                    </div>
-
-                    <!-- Campo AUTO EJECUCCION -->
-                    <div class="form-group">
-                        <label for="auto_ejecucion">AUTO EJECUCCION:</label>
-                        <input type="text" class="form-control" id="auto_ejecucion" name="auto_ejecucion" >
-                    </div>
-
-                    <!-- Campo TERCERIA -->
-                    <div class="form-group">
-                        <label for="terceria">TERCERIA:</label>
-                        <input type="text" class="form-control" id="terceria" name="terceria" >
-                    </div>
-
-                    <!-- Campo RECURSO REVISION -->
-                    <div class="form-group">
-                        <label for="recurso_revision">RECURSO REVISION:</label>
-                        <input type="text" class="form-control" id="recurso_revision" name="recurso_revision" >
-                    </div>
-
-                    <!-- Campo REMATE -->
-                    <div class="form-group">
-                        <label for="remate">REMATE:</label>
-                        <input type="text" class="form-control" id="remate" name="remate" >
-                    </div>
-
-                    <!-- Campo INACTIVIDAD 1 ANIO -->
-                    <div class="form-group">
-                        <label for="inactividad_1_anio">INACTIVIDAD 1 ANIO:</label>
-                        <input type="text" class="form-control" id="inactividad_1_anio" name="inactividad_1_anio" >
-                    </div>
-
-                    <!-- Campo INACTIVIDAD 2 ANIOS O + -->
-                    <div class="form-group">
-                        <label for="inactividad_2_anios_mas">INACTIVIDAD 2 ANIOS O +:</label>
-                        <input type="text" class="form-control" id="inactividad_2_anios_mas" name="inactividad_2_anios_mas" >
-                    </div>
-
-                    <!-- Campo AMPARO INDIRECTO -->
-                    <div class="form-group">
-                        <label for="amparo_indirecto">AMPARO INDIRECTO:</label>
-                        <input type="text" class="form-control" id="amparo_indirecto" name="amparo_indirecto" >
-                    </div>
-
-                    <!-- Campo AMP. DIRECTO CUMPL. -->
-                    <div class="form-group">
-                        <label for="amparo_directo_cumpl">AMP. DIRECTO CUMPL.:</label>
-                        <input type="text" class="form-control" id="amparo_directo_cumpl" name="amparo_directo_cumpl" >
-                    </div>
-
-                    <!-- Campo SUSTITUCION PATRONAL -->
-                    <div class="form-group">
-                        <label for="sustitucion_patronal">SUSTITUCION PATRONAL:</label>
-                        <input type="text" class="form-control" id="sustitucion_patronal" name="sustitucion_patronal" >
-                    </div>
-
-                    <!-- Campo NO INTERPUESTA -->
-                    <div class="form-group">
-                        <label for="no_interpuesta">NO INTERPUESTA:</label>
-                        <input type="text" class="form-control" id="no_interpuesta" name="no_interpuesta" >
-                    </div>
-
-                    <!-- Campo PRESCRIPCION -->
-                    <div class="form-group">
-                        <label for="prescripcion">PRESCRIPCION:</label>
-                        <input type="text" class="form-control" id="prescripcion" name="prescripcion">
-                    </div>
-
-                    <!-- Campo DEPURACION -->
-                    <div class="form-group">
-                        <label for="depuracion">DEPURACION:</label>
-                        <input type="text" class="form-control" id="depuracion" name="depuracion">
-                    </div>
-
-                    <!-- Campo REGULARIZAR -->
-                    <div class="form-group">
-                        <label for="regularizar">REGULARIZAR:</label>
-                        <input type="text" class="form-control" id="regularizar" name="regularizar">
-                    </div>
-
-                    <!-- Campo REVISO CAPTURO -->
-                    <div class="form-group">
-                        <label for="reviso_capturo">REVISO CAPTURO:</label>
-                        <input type="text" class="form-control" id="reviso_capturo" name="reviso_capturo" required>
-                    </div>
-                    <!-- Agrega aquí el resto de los campos -->
-                    <button type="submit" class="btn btn-primary btn-block">Agregar</button>
                 </form>
             </div>
         </div>
