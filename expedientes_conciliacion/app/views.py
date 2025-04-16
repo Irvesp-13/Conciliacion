@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
 from .models import *
+from .models import Empleado
 
 def iniciar_sesion(request):
     if request.method == 'POST':
@@ -335,4 +336,34 @@ def eliminar_expediente(request, id_expediente):
     expediente.delete()
     messages.success(request, 'Expediente eliminado correctamente.')
     return redirect('bienvenida')
+
+
+def crear_empleado(request):
+    empleado_id = request.session.get('empleado_id')
+    if not empleado_id:
+        return redirect('iniciar_sesion')
+    empleado = Empleado.objects.get(id=empleado_id)
+    if not empleado.es_administrador():
+        messages.error(request, 'No tienes permiso para acceder a esta página.')
+        return redirect('bienvenida')
+
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        clave_empleado = request.POST.get('clave_empleado')
+        puesto = request.POST.get('puesto')
+        if nombre and clave_empleado and puesto:
+            if Empleado.objects.filter(clave_empleado=clave_empleado).exists():
+                messages.error(request, 'La clave de empleado ya existe.')
+            else:
+                Empleado.objects.create(
+                    nombre=nombre,
+                    clave_empleado=clave_empleado,
+                    puesto=puesto
+                )
+                messages.success(request, 'Empleado creado exitosamente.')
+                return redirect('crear_empleado')
+        else:
+            messages.error(request, 'Todos los campos son obligatorios.')
+
+    return render(request, 'crear_empleado.html')
 

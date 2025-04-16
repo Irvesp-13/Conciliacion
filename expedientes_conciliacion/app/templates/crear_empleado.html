@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear Empleado{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Crear Nuevo Empleado</h2>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+        </div>
+        <div class="mb-3">
+            <label for="clave_empleado" class="form-label">Clave de Empleado:</label>
+            <input type="text" class="form-control" id="clave_empleado" name="clave_empleado" required>
+        </div>
+        <div class="mb-3">
+            <label for="puesto" class="form-label">Puesto:</label>
+            <select class="form-control" id="puesto" name="puesto" required>
+                <option value="">Seleccione un puesto</option>
+                <option value="1">Administrador</option>
+                <option value="2">Usuario normal</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Crear Empleado</button>
+    </form>
+</div>
+{% endblock %}

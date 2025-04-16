@@ -9,32 +9,56 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #9c7a46; /* Fondo suave */
-            padding-top: 70px; /* Margen superior para la barra de navegación */
+            background-color: #9c7a46;
+            /* Fondo suave */
+            padding-top: 70px;
+            /* Margen superior para la barra de navegación */
         }
+
         .navbar {
-            background-color: #315527; /* Fondo oscuro para la barra de navegación */
+            background-color: #315527;
+            /* Fondo oscuro para la barra de navegación */
         }
+
         .card-header {
-            background-color: #315527; /* Fondo oscuro para los encabezados de las tarjetas */
-            color: #fff; /* Texto blanco */ 
+            background-color: #315527;
+            /* Fondo oscuro para los encabezados de las tarjetas */
+            color: #fff;
+            /* Texto blanco */
         }
+
         .card-body {
-            background-color: #fff6e9; /* Fondo claro para el cuerpo de las tarjetas */
+            background-color: #fff6e9;
+            /* Fondo claro para el cuerpo de las tarjetas */
         }
+
         .container {
-            background-color: #fff6e9; /* Fondo blanco para el contenido */
+            background-color: #fff6e9;
+            /* Fondo blanco para el contenido */
             padding: 20px;
-            border-radius: 8px; /* Bordes redondeados */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            border-radius: 8px;
+            /* Bordes redondeados */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /* Sombra suave */
         }
+
         .btn-agregar {
-            background-color: #315527; /* Fondo oscuro para el botón "Agregar Expediente" */
-            color: #fff; /* Texto blanco */ 
+            background-color: #315527;
+            /* Fondo oscuro para el botón "Agregar Expediente" */
+            color: #fff;
+            /* Texto blanco */
         }
+
+        .btn-base {
+            background-color: #9c7a46;
+            color: #fff;
+        }
+
         thead {
-            background-color: #315527; /* Fondo oscuro para las cabeceras de la tabla */
-            color: #fff; /* Texto blanco */
+            background-color: #315527;
+            /* Fondo oscuro para las cabeceras de la tabla */
+            color: #fff;
+            /* Texto blanco */
         }
     </style>
 </head>
@@ -49,16 +73,21 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
+                {% if empleado.es_administrador %}
+                <li class="nav-item mx-3">
+                    <a href="{% url 'crear_empleado' %}" class="btn btn-base">Crear Usuario</a>
+                </li>
+                {% endif %}
                 {% if request.session.empleado_id %}
-                    <!-- Botón "Cerrar sesión" -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a>
-                    </li>
+                <!-- Botón "Cerrar sesión" -->
+                <li class="nav-item">
+                    <a class="btn btn-base" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a>
+                </li>
                 {% else %}
-                    <!-- Botón "Iniciar sesión" -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'iniciar_sesion' %}">Iniciar sesión</a>
-                    </li>
+                <!-- Botón "Iniciar sesión" -->
+                <li class="nav-item">
+                    <a class="btn btn-base" href="{% url 'iniciar_sesion' %}">Iniciar sesión</a>
+                </li>
                 {% endif %}
             </ul>
         </div>
