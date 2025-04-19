@@ -30,5 +30,46 @@
         </div>
         <button type="submit" class="btn btn-primary">Crear Empleado</button>
     </form>
+
+    <hr>
+
+    <h3>Lista de Usuarios</h3>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Clave Empleado</th>
+                    <th>Puesto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in empleados %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.nombre }}</td>
+                    <td>{{ user.clave_empleado }}</td>
+                    <td>
+                        {% if user.puesto == 1 %}
+                            Administrador
+                        {% else %}
+                            Usuario normal
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'editar_empleado' user.id %}" class="btn btn-sm btn-warning">Editar</a>
+                        <a href="{% url 'eliminar_empleado' user.id %}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este usuario?');">Eliminar</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No hay usuarios registrados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

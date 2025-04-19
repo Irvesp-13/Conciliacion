@@ -365,5 +365,47 @@ def crear_empleado(request):
         else:
             messages.error(request, 'Todos los campos son obligatorios.')
 
-    return render(request, 'crear_empleado.html')
+    empleados = Empleado.objects.all()
+    return render(request, 'crear_empleado.html', {'empleados': empleados})
+
+
+### 4. Implementa las vistas de editar y eliminar
+
+def editar_empleado(request, id):
+    empleado_id = request.session.get('empleado_id')
+    if not empleado_id:
+        return redirect('iniciar_sesion')
+    admin = Empleado.objects.get(id=empleado_id)
+    if not admin.es_administrador():
+        messages.error(request, 'No tienes permiso para acceder a esta página.')
+        return redirect('bienvenida')
+
+    empleado = Empleado.objects.get(id=id)
+    if request.method == 'POST':
+        empleado.nombre = request.POST.get('nombre')
+        empleado.clave_empleado = request.POST.get('clave_empleado')
+        empleado.puesto = request.POST.get('puesto')
+        empleado.save()
+        messages.success(request, 'Empleado actualizado correctamente.')
+        return redirect('crear_empleado')
+    return render(request, 'editar_empleado.html', {'empleado': empleado})
+
+def eliminar_empleado(request, id):
+    empleado_id = request.session.get('empleado_id')
+    if not empleado_id:
+        return redirect('iniciar_sesion')
+    admin = Empleado.objects.get(id=empleado_id)
+    if not admin.es_administrador():
+        messages.error(request, 'No tienes permiso para acceder a esta página.')
+        return redirect('bienvenida')
+
+    # Prevent self-deletion
+    if int(id) == int(empleado_id):
+        messages.error(request, 'No puedes eliminar tu propio usuario mientras estás conectado.')
+        return redirect('crear_empleado')
+
+    empleado = Empleado.objects.get(id=id)
+    empleado.delete()
+    messages.success(request, 'Empleado eliminado correctamente.')
+    return redirect('crear_empleado')
 
