@@ -18,6 +18,9 @@
                             <a href="{% url 'agregar_expediente' %}" class="btn btn-agregar">
                                 <i class="fas fa-plus"></i> Agregar Expediente
                             </a>
+                            <a href="{% url 'ver_cargas' %}" class="btn btn-info">
+                                <i class="fas fa-list"></i> Ver Cargas
+                            </a>
                         </div>
                         {% endif %}
                     </div>
@@ -32,19 +35,16 @@
                 </div>
 
                 <!-- Tabla de expedientes -->
-                <div class="table-responsive">
+                <div class="table-responsive" style="max-height: 530px; overflow-y: auto;">
                     <table class="table table-bordered table-striped table-hover" id="expedientesTable">
-                        <thead>
+                        <thead style="position: sticky; top: 0; background-color: #315527; z-index: 1;">
                             <tr>
                                 <th>ID</th>
-                                <th>EXPEDIENTE</th>
-                                <th>JUNTA</th>
-                                <th>TOMO</th>
-                                <th>ACTOR</th>
-                                <th>DEMANDADO</th>
-                                {% if empleado.es_administrador %}
+                                <th>Expediente</th>
+                                <th>Junta</th>
+                                <th>Actor</th>
+                                <th>Demandado</th>
                                 <th>ACCIONES</th>
-                                {% endif %}
                             </tr>
                         </thead>
                         <tbody>
@@ -53,22 +53,20 @@
                                 <td>{{ expediente.id_expediente }}</td>
                                 <td>{{ expediente.expediente }}</td>
                                 <td>{{ expediente.junta }}</td>
-                                <td>{{ expediente.tomo }}</td>
-                                <td>{{ expediente.actor_nombre }}</td>
-                                <td>{{ expediente.demandado_nombre }}</td>
-                                {% if empleado.es_administrador %}
+                                <td>{{ expediente.actor }}</td>
+                                <td>{{ expediente.demandado }}</td>
                                 <td>
+                                    {% if empleado.es_administrador %}
                                     <a href="{% url 'editar_expediente' expediente.id_expediente %}"
                                         class="btn btn-warning btn-sm">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="{% url 'eliminar_expediente' expediente.id_expediente %}"
-                                        class="btn btn-danger btn-sm"
-                                        onclick="return confirm('¿Estás seguro de que deseas eliminar este expediente?')">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    {% endif %}
+                                    <button class="btn btn-info btn-sm"
+                                        onclick="abrirModalCarga('{{ expediente.id_expediente }}', '{{ expediente.expediente }}')">
+                                        <i class="fas fa-file-upload"></i>
+                                    </button>
                                 </td>
-                                {% endif %}
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -78,7 +76,84 @@
         </div>
     </div>
 </div>
+
+<!-- Modal de Carga -->
+<div class="modal fade" id="modalCarga" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cargar Expediente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formCarga">
+                    {% csrf_token %}
+                    <input type="hidden" id="expediente_id" name="expediente_id">
+                    <div class="mb-3">
+                        <label>Empleado:</label>
+                        <input type="text" class="form-control" value="{{ empleado.nombre }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label>Expediente:</label>
+                        <input type="text" id="numero_expediente" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label>Fecha:</label>
+                        <input type="text" class="form-control" value="{% now 'Y-m-d H:i' %}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label>Nombre de quien recibe:</label>
+                        <input type="text" class="form-control" name="nombre_carga" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="guardarCarga()">Cargar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    let myModal;
+
+    function abrirModalCarga(id, numero) {
+        document.getElementById('expediente_id').value = id;
+        document.getElementById('numero_expediente').value = numero;
+        myModal = new bootstrap.Modal(document.getElementById('modalCarga'));
+        myModal.show();
+    }
+
+    function guardarCarga() {
+        const form = document.getElementById('formCarga');
+        const formData = new FormData(form);
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch('{% url "cargar_expediente" %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Carga registrada correctamente');
+                    myModal.hide();
+                    location.reload();
+                } else {
+                    alert('Error al registrar la carga: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al procesar la solicitud');
+            });
+    }
+
+
     document.getElementById('searchInput').addEventListener('keyup', function () {
         let searchText = this.value.toLowerCase();
         let rows = document.getElementsByClassName('expediente-row');
@@ -86,18 +161,19 @@
         for (let row of rows) {
             let expediente = row.cells[1].textContent.toLowerCase();
             let junta = row.cells[2].textContent.toLowerCase();
-            let actor_nombre = row.cells[4].textContent.toLowerCase();
-            let demandado_nombre = row.cells[5].textContent.toLowerCase();
+            let actor = row.cells[3].textContent.toLowerCase();
+            let demandado = row.cells[4].textContent.toLowerCase();
 
             if (expediente.includes(searchText) ||
                 junta.includes(searchText) ||
-                actor_nombre.includes(searchText) ||
-                demandado_nombre.includes(searchText)) {
+                actor.includes(searchText) ||
+                demandado.includes(searchText)) {
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
             }
         }
     });
+
 </script>
 {% endblock %}

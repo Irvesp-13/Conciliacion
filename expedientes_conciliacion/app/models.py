@@ -69,3 +69,36 @@ class ConciliacionExpedientes(models.Model):
     class Meta:
         db_table = 'expedientes'  # Nombre de la tabla en MySQL
         managed = False  # Evita que Django intente gestionar la tabla
+
+class DosMilSiete(models.Model):
+    id_expediente = models.AutoField(unique=True, primary_key=True, db_column='id_expediente')
+    expediente = models.CharField(max_length=255, db_column='EXPEDIENTE')
+    junta = models.CharField(max_length=255, blank=True, null=False, db_column='JUNTA')
+    actor = models.CharField(max_length=255, blank=True, null=False, db_column='ACTOR')
+    demandado = models.CharField(max_length=255, blank=True, null=False, db_column='DEMANDADO')
+    no_se_ha_notificao_a_las_partes = models.CharField(max_length=255, blank=True, null=True, db_column='NO SE HA NOTIFICACO A LAS PARTES')
+    empl_no_realizado = models.CharField(max_length=255, blank=True, null=True, db_column='EMPL NO REALIZADO')
+    empl_exhorto = models.CharField(max_length=255, blank=True, null=True, db_column='EMPL. EXHORTO')
+    cde = models.CharField(max_length=255, blank=True, null=True, db_column='CDE')
+    oap = models.CharField(max_length=255, blank=True, null=True, db_column='OAP')
+    desahogo_pruebas = models.CharField(max_length=255, blank=True, null=True, db_column='DESAHOGO PRUEBAS')
+    cierre = models.CharField(max_length=255, blank=True, null=True, db_column='CIERRE')
+    laudo_dictado = models.CharField(max_length=255, blank=True, null=True, db_column='LAUDO DICTADO')
+    auto_ejecucion = models.CharField(max_length=255, blank=True, null=True, db_column='AUTO EJECUCCION')
+    prescripcion = models.CharField(max_length=255, blank=True, null=True, db_column='PRESCRIPCION')
+    regularizar = models.CharField(max_length=255, blank=True, null=True, db_column='REGULARIZAR')
+
+    class Meta:
+        db_table = 'dosmilsiete'  # Nombre de la tabla en MySQL
+        managed = False  # Evita que Django intente gestionar la tabla
+
+
+class CargaDescarga(models.Model):
+    id = models.AutoField(primary_key=True)  # This will auto-increment
+    empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
+    expediente = models.ForeignKey(DosMilSiete, on_delete=models.CASCADE)
+    fecha = models.DateTimeField(auto_now_add=True)
+    nombre_carga = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'cargadescarga'
