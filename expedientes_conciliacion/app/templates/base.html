@@ -75,13 +75,17 @@
             <ul class="navbar-nav ml-auto">
                 {% if empleado.es_administrador %}
                 <li class="nav-item mx-3">
-                    <a href="{% url 'crear_empleado' %}" class="btn btn-base">Crear Usuario</a>
+                    <a href="{% url 'crear_empleado' %}" class="btn btn-base">
+                        <i class="fas fa-plus"></i> <i class="fas fa-user"></i>
+                    </a>
                 </li>
                 {% endif %}
                 {% if request.session.empleado_id %}
                 <!-- Botón "Cerrar sesión" -->
                 <li class="nav-item">
-                    <a class="btn btn-base" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a>
+                    <a class="btn btn-base" href="{% url 'cerrar_sesion' %}">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
                 </li>
                 {% else %}
                 <!-- Botón "Iniciar sesión" -->

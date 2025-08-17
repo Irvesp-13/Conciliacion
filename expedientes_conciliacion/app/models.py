@@ -102,3 +102,16 @@ class CargaDescarga(models.Model):
 
     class Meta:
         db_table = 'cargadescarga'
+
+
+class Archivados(models.Model):
+    id_archivo = models.AutoField(primary_key=True)
+    expediente = models.CharField(max_length=255)  # Changed from ForeignKey to CharField
+    junta = models.CharField(max_length=255)
+    actor = models.CharField(max_length=255)
+    demandado = models.CharField(max_length=255)
+    fecha_archivo = models.DateTimeField(auto_now_add=True)
+    motivo = models.TextField()
+
+    class Meta:
+        db_table = 'archivados'

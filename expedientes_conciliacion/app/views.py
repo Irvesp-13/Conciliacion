@@ -6,6 +6,7 @@ from .models import Empleado
 from django.http import JsonResponse
 from django.utils import timezone
 from .models import CargaDescarga
+from django.contrib.auth.decorators import login_required
 
 def iniciar_sesion(request):
     if request.method == 'POST':
@@ -328,4 +329,55 @@ def ver_cargas(request):
     
     cargas = CargaDescarga.objects.all().order_by('-fecha')
     return render(request, 'ver_cargas.html', {'cargas': cargas})
+
+
+# Remove @login_required decorator and keep the function as is
+def archivar_expediente(request):
+    empleado_id = request.session.get('empleado_id')
+    if not empleado_id:
+        return JsonResponse({'success': False, 'error': 'Sesión no iniciada'})
+    
+    empleado = Empleado.objects.get(id=empleado_id)
+    if not empleado.es_administrador:
+        return JsonResponse({'success': False, 'error': 'No tienes permisos para realizar esta acción'})
+
+    if request.method == 'POST':
+        try:
+            expediente_id = request.POST.get('expediente_id')
+            motivo = request.POST.get('motivo')
+            
+            expediente = DosMilSiete.objects.get(id_expediente=expediente_id)
+            
+            # Create archive record with all fields as strings
+            Archivados.objects.create(
+                expediente=expediente.expediente,  # Changed field name to match model
+                junta=expediente.junta,
+                actor=expediente.actor,
+                demandado=expediente.demandado,
+                motivo=motivo,
+                fecha_archivo=timezone.now()
+            )
+            
+            # Delete from original table
+            expediente.delete()
+            
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+    
+    return JsonResponse({'success': False, 'error': 'Método no permitido'})
+
+# Remove @login_required decorator and keep the function as is
+def ver_archivados(request):
+    empleado_id = request.session.get('empleado_id')
+    if not empleado_id:
+        return redirect('iniciar_sesion')
+    
+    empleado = Empleado.objects.get(id=empleado_id)
+    if not empleado.es_administrador():
+        messages.error(request, 'No tienes permisos para ver expedientes archivados')
+        return redirect('bienvenida')
+    
+    archivados = Archivados.objects.all().order_by('-fecha_archivo')
+    return render(request, 'ver_archivados.html', {'archivados': archivados, 'empleado': empleado})
 

@@ -12,4 +12,6 @@ urlpatterns = [
     path('eliminar-empleado/<int:id>/', views.eliminar_empleado, name='eliminar_empleado'),
     path('cargar-expediente/', views.cargar_expediente, name='cargar_expediente'),
     path('ver-cargas/', views.ver_cargas, name='ver_cargas'),
+    path('archivar-expediente/', views.archivar_expediente, name='archivar_expediente'),
+    path('ver-archivados/', views.ver_archivados, name='ver_archivados'),
 ]

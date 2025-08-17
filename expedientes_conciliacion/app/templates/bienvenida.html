@@ -16,10 +16,13 @@
                         {% if empleado.es_administrador %}
                         <div class="text-start">
                             <a href="{% url 'agregar_expediente' %}" class="btn btn-agregar">
-                                <i class="fas fa-plus"></i> Agregar Expediente
+                                <i class="fas fa-plus"></i> <i class="fas fa-file"></i>
                             </a>
-                            <a href="{% url 'ver_cargas' %}" class="btn btn-info">
-                                <i class="fas fa-list"></i> Ver Cargas
+                            <a href="{% url 'ver_cargas' %}" class="btn btn-agregar">
+                                <i class="fas fa-eye"></i> <i class="fas fa-file-upload"></i>
+                            </a>
+                            <a href="{% url 'ver_archivados' %}" class="btn btn-agregar">
+                                <i class="fas fa-archive"></i>
                             </a>
                         </div>
                         {% endif %}
@@ -56,16 +59,18 @@
                                 <td>{{ expediente.actor }}</td>
                                 <td>{{ expediente.demandado }}</td>
                                 <td>
-                                    {% if empleado.es_administrador %}
                                     <a href="{% url 'editar_expediente' expediente.id_expediente %}"
                                         class="btn btn-warning btn-sm">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    {% endif %}
-                                    <button class="btn btn-info btn-sm"
-                                        onclick="abrirModalCarga('{{ expediente.id_expediente }}', '{{ expediente.expediente }}')">
+                                    <button class="btn btn-info btn-sm" onclick="abrirModalCarga('{{ expediente.id_expediente }}', '{{ expediente.expediente }}')">
                                         <i class="fas fa-file-upload"></i>
                                     </button>
+                                    {% if empleado.es_administrador %}
+                                    <button class="btn btn-danger btn-sm" onclick="abrirModalArchivo('{{ expediente.id_expediente }}', '{{ expediente.expediente }}')">
+                                        <i class="fas fa-archive"></i>
+                                    </button>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}
@@ -110,6 +115,40 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary" onclick="guardarCarga()">Cargar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Archivo -->
+<div class="modal fade" id="modalArchivo" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Archivar Expediente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formArchivo">
+                    {% csrf_token %}
+                    <input type="hidden" id="expediente_id_archivo" name="expediente_id">
+                    <div class="mb-3">
+                        <label>Expediente:</label>
+                        <input type="text" id="numero_expediente_archivo" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label>Fecha:</label>
+                        <input type="text" class="form-control" value="{% now 'Y-m-d H:i' %}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label>Motivo del archivo:</label>
+                        <textarea class="form-control" name="motivo" required rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="archivarExpediente()">Archivar</button>
             </div>
         </div>
     </div>
@@ -175,5 +214,50 @@
         }
     });
 
+</script>
+<script>
+    let modalArchivo;
+
+    function abrirModalArchivo(id, numero) {
+        document.getElementById('expediente_id_archivo').value = id;
+        document.getElementById('numero_expediente_archivo').value = numero;
+        modalArchivo = new bootstrap.Modal(document.getElementById('modalArchivo'));
+        modalArchivo.show();
+    }
+
+    function archivarExpediente() {
+        const form = document.getElementById('formArchivo');
+        const formData = new FormData(form);
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch('{% url "archivar_expediente" %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                alert('Expediente archivado correctamente');
+                modalArchivo.hide();
+                location.reload();
+            } else {
+                alert('Error al archivar el expediente: ' + (data.error || 'Error desconocido'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al procesar la solicitud. Por favor, inténtelo de nuevo.');
+        });
+    }
 </script>
 {% endblock %}
