@@ -4,7 +4,13 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Dar de Alta Nuevo Empleado</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{% url 'bienvenida' %}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left"></i> Regresar
+        </a>
+        <h2 class="mb-0">Dar de Alta Nuevo Empleado</h2>
+        <div style="width: 100px;"></div> <!-- Espaciador para centrar el título -->
+    </div>
     {% if messages %}
         {% for message in messages %}
             <div class="alert alert-{{ message.tags }}">{{ message }}</div>
@@ -28,7 +34,12 @@
                 <option value="2">Usuario normal</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Crear Empleado</button>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-user-plus"></i> Crear Empleado
+        </button>
+        <a href="{% url 'bienvenida' %}" class="btn btn-secondary">
+            <i class="fas fa-times"></i> Cancelar
+        </a>
     </form>
 
     <hr>

@@ -13,5 +13,7 @@ urlpatterns = [
     path('cargar-expediente/', views.cargar_expediente, name='cargar_expediente'),
     path('ver-cargas/', views.ver_cargas, name='ver_cargas'),
     path('archivar-expediente/', views.archivar_expediente, name='archivar_expediente'),
+    path('obtener-expedientes/', views.obtener_expedientes_ajax, name='obtener_expedientes_ajax'),
     path('ver-archivados/', views.ver_archivados, name='ver_archivados'),
+    path('exportar-expedientes-excel/', views.exportar_expedientes_excel, name='exportar_expedientes_excel'),
 ]

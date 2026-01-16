@@ -3,10 +3,13 @@ from django.contrib import messages
 from django.db.models import Q
 from .models import *
 from .models import Empleado
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 from .models import CargaDescarga
 from django.contrib.auth.decorators import login_required
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment
+from datetime import datetime
 
 def iniciar_sesion(request):
     if request.method == 'POST':
@@ -343,29 +346,56 @@ def archivar_expediente(request):
 
     if request.method == 'POST':
         try:
-            expediente_id = request.POST.get('expediente_id')
+            expedientes_ids = request.POST.getlist('expedientes_ids[]')
             motivo = request.POST.get('motivo')
             
-            expediente = DosMilSiete.objects.get(id_expediente=expediente_id)
+            if not expedientes_ids:
+                return JsonResponse({'success': False, 'error': 'No se seleccionaron expedientes'})
             
-            # Create archive record with all fields as strings
-            Archivados.objects.create(
-                expediente=expediente.expediente,  # Changed field name to match model
-                junta=expediente.junta,
-                actor=expediente.actor,
-                demandado=expediente.demandado,
-                motivo=motivo,
-                fecha_archivo=timezone.now()
-            )
+            archivados_count = 0
+            for expediente_id in expedientes_ids:
+                try:
+                    expediente = DosMilSiete.objects.get(id_expediente=expediente_id)
+                    
+                    # Create archive record with all fields as strings
+                    Archivados.objects.create(
+                        expediente=expediente.expediente,
+                        junta=expediente.junta,
+                        actor=expediente.actor,
+                        demandado=expediente.demandado,
+                        motivo=motivo,
+                        fecha_archivo=timezone.now()
+                    )
+                    
+                    # Delete from original table
+                    expediente.delete()
+                    archivados_count += 1
+                except DosMilSiete.DoesNotExist:
+                    continue
             
-            # Delete from original table
-            expediente.delete()
-            
-            return JsonResponse({'success': True})
+            return JsonResponse({
+                'success': True, 
+                'message': f'Se archivaron {archivados_count} expedientes correctamente'
+            })
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)})
     
     return JsonResponse({'success': False, 'error': 'Método no permitido'})
+
+def obtener_expedientes_ajax(request):
+    """Vista para obtener expedientes mediante AJAX para el modal de archivado"""
+    empleado_id = request.session.get('empleado_id')
+    if not empleado_id:
+        return JsonResponse({'success': False, 'error': 'Sesión no iniciada'})
+    
+    empleado = Empleado.objects.get(id=empleado_id)
+    if not empleado.es_administrador():
+        return JsonResponse({'success': False, 'error': 'No tienes permisos para realizar esta acción'})
+    
+    expedientes = DosMilSiete.objects.all().values('id_expediente', 'expediente', 'junta', 'actor', 'demandado')
+    expedientes_list = list(expedientes)
+    
+    return JsonResponse({'success': True, 'expedientes': expedientes_list})
 
 # Remove @login_required decorator and keep the function as is
 def ver_archivados(request):
@@ -380,4 +410,117 @@ def ver_archivados(request):
     
     archivados = Archivados.objects.all().order_by('-fecha_archivo')
     return render(request, 'ver_archivados.html', {'archivados': archivados, 'empleado': empleado})
+
+def exportar_expedientes_excel(request):
+    # Verificar sesión
+    empleado_id = request.session.get('empleado_id')
+    if not empleado_id:
+        messages.error(request, 'Debes iniciar sesión')
+        return redirect('iniciar_sesion')
+    
+    # Obtener todos los expedientes de la tabla 'expedientes'
+    expedientes = ConciliacionExpedientes.objects.all()
+    
+    # Crear el libro de Excel
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Expedientes"
+    
+    # Estilos para el encabezado
+    header_fill = PatternFill(start_color="366092", end_color="366092", fill_type="solid")
+    header_font = Font(bold=True, color="FFFFFF", size=11)
+    header_alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+    
+    # Definir las columnas (según los campos del modelo ConciliacionExpedientes)
+    headers = [
+        'EXPEDIENTE', 'JUNTA', 'TOMO', 'ACTOR(NOMBRE)', 'MUJER (NUMERO)', 'HOMBRE(NUMERO)',
+        'DEMANDADO (NOMBRE)', 'MUJER (NUMERO)', 'HOMBRE (NUMERO)', 'PERSONA MORAL (NUMERO)',
+        'IEBEM', 'SERVICIOS SALUD', 'PODER EJECUTIVO', 'AYUNTAMIENTOS', 'OTROS ORGANISMOS',
+        'NO SE HA NOTIFICADO A LAS PARTES', 'EMPL.NO REALIZADO', 'EMPL. EXHORTO',
+        'EXHORTOS SIN ENVIAR', 'EXHORTOS CDMX', 'EXHORTOS FORANEOS', 'C.D.E.',
+        'TERCERO LLAMADO A JUICIO', 'O.A.P.', 'DESAHOGO PRUEBAS', 'TESTIMONIAL_FALTA_CITAR',
+        'PERICIALES_PARTES', 'PERICIALES', 'INFORME_FALTA_HACER', 'INFORME_FALTA_DESAHOGAR',
+        'OTRAS_PRUEBAS', 'ALEGATOS', 'PRUEBA PENDIENTE', 'CIERRE', 'LAUDO DICTADO',
+        'ABSOLUTORIO', 'CONDENATORIO', 'MONTO DE CONDENA', 'AUTO EJECUCCION', 'TERCERIA',
+        'RECURSO REVISION', 'REMATE', 'INACTIVIDAD 1 ANIO', 'INACTIVIDAD 2 ANIOS O +',
+        'AMPARO INDIRECTO', 'AMP. DIRECTO CUMPL.', 'SUSTITUCION PATRONAL', 'NO INTERPUESTA',
+        'PRESCRIPCION', 'DEPURACION', 'REGULARIZAR', 'REVISO CAPTURO', 'ID_EXPEDIENTE'
+    ]
+    
+    # Escribir encabezados
+    for col_num, header in enumerate(headers, 1):
+        cell = ws.cell(row=1, column=col_num)
+        cell.value = header
+        cell.fill = header_fill
+        cell.font = header_font
+        cell.alignment = header_alignment
+        ws.column_dimensions[cell.column_letter].width = 18
+    
+    # Escribir los datos de los expedientes
+    for row_num, exp in enumerate(expedientes, 2):
+        ws.cell(row=row_num, column=1).value = exp.expediente or ''
+        ws.cell(row=row_num, column=2).value = exp.junta or ''
+        ws.cell(row=row_num, column=3).value = exp.tomo or ''
+        ws.cell(row=row_num, column=4).value = exp.actor_nombre or ''
+        ws.cell(row=row_num, column=5).value = exp.mujer_numero or ''
+        ws.cell(row=row_num, column=6).value = exp.hombre_numero or ''
+        ws.cell(row=row_num, column=7).value = exp.demandado_nombre or ''
+        ws.cell(row=row_num, column=8).value = exp.mujer_numero_0 or ''
+        ws.cell(row=row_num, column=9).value = exp.hombre_numero_0 or ''
+        ws.cell(row=row_num, column=10).value = exp.persona_moral_numero or ''
+        ws.cell(row=row_num, column=11).value = exp.iebem or ''
+        ws.cell(row=row_num, column=12).value = exp.servicios_salud or ''
+        ws.cell(row=row_num, column=13).value = exp.poder_ejecutivo or ''
+        ws.cell(row=row_num, column=14).value = exp.ayuntamientos or ''
+        ws.cell(row=row_num, column=15).value = exp.otros_organismos or ''
+        ws.cell(row=row_num, column=16).value = exp.no_se_ha_notificado_a_las_partes or ''
+        ws.cell(row=row_num, column=17).value = exp.empl_no_realizado or ''
+        ws.cell(row=row_num, column=18).value = exp.empl_exhorto or ''
+        ws.cell(row=row_num, column=19).value = exp.exhortos_sin_enviar or ''
+        ws.cell(row=row_num, column=20).value = exp.exhortos_cdmx or ''
+        ws.cell(row=row_num, column=21).value = exp.exhortos_foraneos or ''
+        ws.cell(row=row_num, column=22).value = exp.cde or ''
+        ws.cell(row=row_num, column=23).value = exp.tercero_llamado_a_juicio or ''
+        ws.cell(row=row_num, column=24).value = exp.oap or ''
+        ws.cell(row=row_num, column=25).value = exp.desahogo_pruebas or ''
+        ws.cell(row=row_num, column=26).value = exp.test_falta_citar or ''
+        ws.cell(row=row_num, column=27).value = exp.periciales_partes or ''
+        ws.cell(row=row_num, column=28).value = exp.pericial_tercero or ''
+        ws.cell(row=row_num, column=29).value = exp.inf_falta_hacer or ''
+        ws.cell(row=row_num, column=30).value = exp.inf_falta_desahogar or ''
+        ws.cell(row=row_num, column=31).value = exp.otras_pruebas or ''
+        ws.cell(row=row_num, column=32).value = exp.alegatos or ''
+        ws.cell(row=row_num, column=33).value = exp.prueba_pendiente or ''
+        ws.cell(row=row_num, column=34).value = exp.cierre or ''
+        ws.cell(row=row_num, column=35).value = exp.laudo_dictado or ''
+        ws.cell(row=row_num, column=36).value = exp.absolutorio or ''
+        ws.cell(row=row_num, column=37).value = exp.condenatorio or ''
+        ws.cell(row=row_num, column=38).value = exp.monto or ''
+        ws.cell(row=row_num, column=39).value = exp.auto_ejecucion or ''
+        ws.cell(row=row_num, column=40).value = exp.terceria or ''
+        ws.cell(row=row_num, column=41).value = exp.recurso_revision or ''
+        ws.cell(row=row_num, column=42).value = exp.remate or ''
+        ws.cell(row=row_num, column=43).value = exp.inactividad_1_anio or ''
+        ws.cell(row=row_num, column=44).value = exp.inactividad_2_anios_mas or ''
+        ws.cell(row=row_num, column=45).value = exp.amparo_indirecto or ''
+        ws.cell(row=row_num, column=46).value = exp.amparo_directo_cumpl or ''
+        ws.cell(row=row_num, column=47).value = exp.sustitucion_patronal or ''
+        ws.cell(row=row_num, column=48).value = exp.no_interpuesta or ''
+        ws.cell(row=row_num, column=49).value = exp.prescripcion or ''
+        ws.cell(row=row_num, column=50).value = exp.depuracion or ''
+        ws.cell(row=row_num, column=51).value = exp.regularizar or ''
+        ws.cell(row=row_num, column=52).value = exp.reviso_capturo or ''
+        ws.cell(row=row_num, column=53).value = exp.id_expediente
+    
+    # Preparar la respuesta HTTP
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    fecha_actual = datetime.now().strftime('%Y%m%d_%H%M%S')
+    response['Content-Disposition'] = f'attachment; filename=expedientes_{fecha_actual}.xlsx'
+    
+    # Guardar el libro en la respuesta
+    wb.save(response)
+    
+    return response
 
