@@ -115,3 +115,20 @@ class Archivados(models.Model):
 
     class Meta:
         db_table = 'archivados'
+
+
+class Bitacora(models.Model):
+    id = models.AutoField(primary_key=True)
+    empleado = models.ForeignKey(Empleado, on_delete=models.SET_NULL, null=True)
+    accion = models.CharField(max_length=255)  # Tipo de acción (crear, editar, eliminar, etc.)
+    descripcion = models.TextField()  # Descripción detallada de la acción
+    fecha_hora = models.DateTimeField(auto_now_add=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+
+    class Meta:
+        db_table = 'bitacora'
+        ordering = ['-fecha_hora']
+
+    def __str__(self):
+        empleado_nombre = self.empleado.nombre if self.empleado else 'Usuario eliminado'
+        return f"{self.fecha_hora} - {empleado_nombre} - {self.accion}"

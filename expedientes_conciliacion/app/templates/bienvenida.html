@@ -11,67 +11,51 @@
             </div>
             <div class="card-body">
                 <div class="row mb-4">
-                    <!-- Left side: Add button (admin only) -->
-                    <div class="col-md-6">
-                        {% if empleado.es_administrador %}
-                        <div class="text-start">
-                            <a href="{% url 'agregar_expediente' %}" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> <i class="fas fa-file"></i>
-                            </a>
-                            <a href="{% url 'ver_cargas' %}" class="btn btn-agregar">
-                                <i class="fas fa-eye"></i> <i class="fas fa-file-upload"></i>
-                            </a>
-                            <a class="btn btn-danger" onclick="abrirModalArchivoMultiple()">
-                                <i class="fas fa-plus"></i> <i class="fas fa-archive"></i>
-                            </a>
-                            <a href="{% url 'ver_archivados' %}" class="btn btn-agregar">
-                                <i class="fas fa-eye"></i> <i class="fas fa-archive"></i>
-                            </a>
-                            <a href="{% url 'exportar_expedientes_excel' %}" class="btn btn-success">
-                                <i class="fas fa-file-excel"></i> Exportar Excel
-                            </a>
-                        </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Right side: Search bar -->
-                    <div class="col-md-6">
+                    <!-- Search bar -->
+                    <div class="col-md-12">
                         <div class="input-group">
                             <input type="text" id="searchInput" class="form-control"
                                 placeholder="Buscar por Actor, Demandado, Expediente o Junta...">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" onclick="limpiarBusqueda()" title="Limpiar búsqueda">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Tabla de expedientes -->
-                <div class="table-responsive" style="max-height: 530px; overflow-y: auto;">
-                    <table class="table table-bordered table-striped table-hover" id="expedientesTable">
-                        <thead style="position: sticky; top: 0; background-color: #315527; z-index: 1;">
-                            <tr>
-                                <th>ID</th>
-                                <th>Expediente</th>
-                                <th>Junta</th>
-                                <th>Actor</th>
-                                <th>Demandado</th>
-                                <th>ACCIONES</th>
-                            </tr>
-                        </thead>
+<div class="table-responsive" style="max-height: 530px; overflow-y: auto;">
+    <table class="table table-bordered table-striped table-hover" id="expedientesTable">
+        <thead style="position: sticky; top: 0; background-color: #315527; z-index: 1;">
+            <tr>
+                <th style="width: 18%;">Expediente</th>
+                <th style="width: 18%;">Junta</th>
+                <th style="width: 22%;">Actor</th>
+                <th style="width: 22%;">Demandado</th>
+                <th style="width: 20%;">ACCIONES</th>
+            </tr>
+        </thead>
                         <tbody>
                             {% for expediente in expedientes %}
-                            <tr class="expediente-row">
-                                <td>{{ expediente.id_expediente }}</td>
+                            <tr class="expediente-row" style="cursor: pointer;" onclick="window.location.href='{% url 'ver_expediente' expediente.id_expediente %}'">
                                 <td>{{ expediente.expediente }}</td>
                                 <td>{{ expediente.junta }}</td>
-                                <td>{{ expediente.actor }}</td>
-                                <td>{{ expediente.demandado }}</td>
-                                <td>
-                                    <a href="{% url 'editar_expediente' expediente.id_expediente %}"
-                                        class="btn btn-warning btn-sm">
-                                        <i class="fas fa-edit"></i>
+                                <td>{{ expediente.actor_nombre }}</td>
+                                <td>{{ expediente.demandado_nombre }}</td>
+                                <td style="white-space: nowrap;" onclick="event.stopPropagation();">
+                                    <a href="{% url 'ver_expediente' expediente.id_expediente %}"
+                                        class="btn btn-info btn-sm me-2">
+                                        <i class="fas fa-eye"></i> Ver
                                     </a>
-                                    <button class="btn btn-info btn-sm"
+                                    <a href="{% url 'editar_expediente' expediente.id_expediente %}"
+                                        class="btn btn-agregar btn-sm me-2">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </a>
+                                    <button class="btn btn-agregar btn-sm"
                                         onclick="abrirModalCarga('{{ expediente.id_expediente }}', '{{ expediente.expediente }}')">
-                                        <i class="fas fa-file-upload"></i>
+                                        <i class="fas fa-file-upload"></i> Cargar
                                     </button>
                                 </td>
                             </tr>
@@ -309,8 +293,8 @@
                         <div class="row">
                             <div class="col-md-3"><strong>${exp.expediente}</strong></div>
                             <div class="col-md-2">${exp.junta}</div>
-                            <div class="col-md-3">${exp.actor}</div>
-                            <div class="col-md-4">${exp.demandado}</div>
+                            <div class="col-md-3">${exp.actor_nombre}</div>
+                            <div class="col-md-4">${exp.demandado_nombre}</div>
                         </div>
                     </label>
                 </div>
@@ -325,8 +309,8 @@
         const expedientesFiltrados = expedientesData.filter(exp =>
             exp.expediente.toLowerCase().includes(filtro) ||
             exp.junta.toLowerCase().includes(filtro) ||
-            exp.actor.toLowerCase().includes(filtro) ||
-            exp.demandado.toLowerCase().includes(filtro)
+            exp.actor_nombre.toLowerCase().includes(filtro) ||
+            exp.demandado_nombre.toLowerCase().includes(filtro)
         );
         mostrarExpedientes(expedientesFiltrados);
 
@@ -484,6 +468,14 @@
             }
         }
     });
+
+    // Función para limpiar el campo de búsqueda
+    function limpiarBusqueda() {
+        const searchInput = document.getElementById('searchInput');
+        searchInput.value = '';
+        searchInput.dispatchEvent(new Event('keyup'));
+        searchInput.focus();
+    }
 
 </script>
 {% endblock %}
